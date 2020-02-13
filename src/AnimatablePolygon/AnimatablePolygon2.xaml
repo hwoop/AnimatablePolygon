@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="AnimatablePolygon.AnimatablePolygon2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AnimatablePolygon"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.Resources>
+            <CubicEase x:Key="EaseMode" EasingMode="EaseOut"/>
+        </Grid.Resources>
+        
+        <local:AnimatablePolygon1 Points="{Binding Points}" Stroke="Green" StrokeThickness="1">
+            <local:AnimatablePolygon1.Data>
+                <PathGeometry FillRule="EvenOdd">
+                    <PathGeometry.Figures>
+                        <PathFigure x:Name="xFigure" 
+                                    IsClosed="True">
+                            <LineSegment x:Name="PART_Segment1"/>
+                            <LineSegment x:Name="PART_Segment2"/>
+                            <LineSegment x:Name="PART_Segment3"/>
+                        </PathFigure>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </local:AnimatablePolygon1.Data>
+
+            <local:AnimatablePolygon1.Triggers>
+                <EventTrigger RoutedEvent="local:AnimatablePolygon1.PointsChanged">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <PointAnimationUsingKeyFrames Storyboard.TargetName="xFigure"
+                                                          Storyboard.TargetProperty="StartPoint">
+                                <EasingPointKeyFrame KeyTime="{Binding KeyTime}" Value="{Binding Points[0]}"
+                                                     EasingFunction="{DynamicResource EaseMode}"/>
+                            </PointAnimationUsingKeyFrames>
+
+                            <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Segment1"
+                                                          Storyboard.TargetProperty="Point">
+                                <EasingPointKeyFrame KeyTime="{Binding KeyTime}" Value="{Binding Points[1]}"
+                                                     EasingFunction="{DynamicResource EaseMode}"/>
+                            </PointAnimationUsingKeyFrames>
+
+                            <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Segment2"
+                                                          Storyboard.TargetProperty="Point">
+                                <EasingPointKeyFrame KeyTime="{Binding KeyTime}" Value="{Binding Points[2]}"
+                                                     EasingFunction="{DynamicResource EaseMode}"/>
+                            </PointAnimationUsingKeyFrames>
+
+                            <PointAnimationUsingKeyFrames Storyboard.TargetName="PART_Segment3"
+                                                          Storyboard.TargetProperty="Point">
+                                <EasingPointKeyFrame KeyTime="{Binding KeyTime}" Value="{Binding Points[3]}"
+                                                     EasingFunction="{DynamicResource EaseMode}"/>
+                            </PointAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </local:AnimatablePolygon1.Triggers>
+        </local:AnimatablePolygon1>
+    </Grid>
+</UserControl>
